@@ -1,0 +1,19 @@
+{
+  "name": "commuquiz-package",
+  "version": "1.0.0",
+  "description": "A complete community quiz package with React frontend and Node.js backend",
+  "main": "frontend/dist/commuquiz.umd.js",
+  "scripts": {
+    "start": "node backend/src/index.js",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build": "npm run build --prefix frontend",
+    "install-all": "npm install && npm install --prefix backend && npm install --prefix frontend"
+  },
+  "keywords": ["quiz", "react", "node", "real-time", "community"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
