@@ -16,13 +16,16 @@ const generateRoomCode = () => {
 
 // POST /api/quiz/generate - Generate questions using AI
 router.post('/generate', async (req, res) => {
-  const { topic, questionCount = 10 } = req.body;
+  const { topic, questionCount = 10, difficulty = 'medium' } = req.body;
 
   if (!topic) {
     return res.status(400).json({ success: false, message: 'Topic is required' });
   }
 
-  const result = await generateQuestions(topic, questionCount);
+  const validDifficulties = ['easy', 'medium', 'hard'];
+  const diffLevel = validDifficulties.includes(difficulty) ? difficulty : 'medium';
+
+  const result = await generateQuestions(topic, questionCount, diffLevel);
 
   if (!result.success) {
     return res.status(500).json({ success: false, message: 'AI generation failed' });

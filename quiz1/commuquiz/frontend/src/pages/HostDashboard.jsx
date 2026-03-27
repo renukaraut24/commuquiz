@@ -2,8 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useSocket } from '../context/SocketContext';
 import { QRCodeSVG } from 'qrcode.react';
+const API = 'http://localhost:5000/api';
 
-const API = 'http://172.25.80.1:5000/api';
 
 export default function HostDashboard() {
   const socket = useSocket();
@@ -12,6 +12,7 @@ export default function HostDashboard() {
   const [step, setStep] = useState('create');
   const [topic, setTopic] = useState('');
   const [questionCount, setQuestionCount] = useState(10);
+  const [difficulty, setDifficulty] = useState('medium');
   const [quizTitle, setQuizTitle] = useState('');
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ export default function HostDashboard() {
     if (!topic.trim()) return alert('Enter a topic!');
     setLoading(true);
     try {
-      const res = await axios.post(`${API}/quiz/generate`, { topic, questionCount });
+      const res = await axios.post(`${API}/quiz/generate`, { topic, questionCount, difficulty });
       setQuestions(res.data.questions);
       setQuizTitle(`Quiz on ${topic}`);
       setStep('review');
@@ -114,13 +115,24 @@ export default function HostDashboard() {
 
         <label className="text-sm text-gray-400 mb-1 block">Number of Questions</label>
         <select
-          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white mb-6"
+          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white mb-4 focus:outline-none focus:border-teal-400"
           value={questionCount}
           onChange={(e) => setQuestionCount(Number(e.target.value))}
         >
           {[5, 10, 15, 20].map(n => (
             <option key={n} value={n}>{n} Questions</option>
           ))}
+        </select>
+
+        <label className="text-sm text-gray-400 mb-1 block">Difficulty Level</label>
+        <select
+          className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white mb-6 focus:outline-none focus:border-teal-400"
+          value={difficulty}
+          onChange={(e) => setDifficulty(e.target.value)}
+        >
+          <option value="easy"> Beginner (Level 1)</option>
+          <option value="medium">Intermediate (Level 2)</option>
+          <option value="hard"> Advanced (Level 3)</option>
         </select>
 
         <button
@@ -190,7 +202,7 @@ export default function HostDashboard() {
         </div>
 
         <div className="bg-white rounded-xl p-4 inline-block mb-6">
-         <QRCodeSVG value={`https://emmalyn-centroclinal-unnefariously.ngrok-free.dev/join/${roomCode}`} size={150} />
+         <QRCodeSVG value={` https://emmalyn-centroclinal-unnefariously.ngrok-free.dev/join/${roomCode}`} size={150} />
         </div>
 
         <div className="bg-gray-800 rounded-xl p-4 mb-6">

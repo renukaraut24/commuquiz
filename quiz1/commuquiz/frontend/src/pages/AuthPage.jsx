@@ -4,8 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 
-
-const API = 'http://172.25.80.1:5000/api';
+const API = 'http:// 172.25.80.1:5000/api';
 
 
 export default function AuthPage() {

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 
-const EMOJIS = ['🔥', '😂', '😮', '👏', '💯', '🎉'];
 
 export default function PlayerView() {
   const { roomCode: paramCode } = useParams();
@@ -64,15 +63,6 @@ export default function PlayerView() {
       setStep('results');
     });
 
-    socket.on('room:reaction', ({ playerName: pn, emoji }) => {
-      // Show floating emoji (simple version)
-      const el = document.createElement('div');
-      el.textContent = emoji;
-      el.style.cssText = `position:fixed;font-size:2rem;top:${Math.random() * 60 + 10}%;left:${Math.random() * 80 + 10}%;animation:fadeUp 2s ease forwards;pointer-events:none;z-index:999`;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 2000);
-    });
-
     return () => {
       socket.off('error');
       socket.off('player:joined');
@@ -83,7 +73,6 @@ export default function PlayerView() {
       socket.off('quiz:question_ended');
       socket.off('leaderboard:update');
       socket.off('quiz:finished');
-      socket.off('room:reaction');
     };
   }, [socket]);
 
@@ -110,10 +99,6 @@ export default function PlayerView() {
       answerIndex: index,
       timeLeft,
     });
-  };
-
-  const sendReaction = (emoji) => {
-    socket.emit('player:reaction', { roomCode, emoji });
   };
 
   const getOptionStyle = (index) => {
@@ -246,18 +231,6 @@ export default function PlayerView() {
           </>
         )}
 
-        {/* Emoji Reactions */}
-        <div className="flex justify-center gap-3">
-          {EMOJIS.map((e) => (
-            <button
-              key={e}
-              onClick={() => sendReaction(e)}
-              className="text-2xl hover:scale-125 transition-transform"
-            >
-              {e}
-            </button>
-          ))}
-        </div>
       </div>
     </div>
   );
