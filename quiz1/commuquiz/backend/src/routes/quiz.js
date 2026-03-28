@@ -129,7 +129,7 @@ router.get('/:quizId/results', async (req, res) => {
   }
 });
 
-module.exports = router;
+
 
 // GET /api/quiz/:quizId/analytics - Post-quiz analytics
 router.get('/:quizId/analytics', async (req, res) => {
@@ -157,3 +157,4 @@ router.get('/:quizId/analytics', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+module.exports = router;
