@@ -59,6 +59,7 @@ function AppRoutes() {
 
       {/* 🔥 QUIZ ROUTE (FIXED) */}
       <Route path="/quiz/:roomCode" element={<PlayerView />} />
+      <Route path="/join" element={<PlayerView />} />
     </Routes>
   );
 }

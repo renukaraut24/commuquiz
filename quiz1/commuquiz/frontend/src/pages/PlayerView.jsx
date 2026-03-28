@@ -88,6 +88,7 @@ export default function PlayerView() {
     if (!playerName.trim()) return setError('Enter your name!');
     if (!roomCode.trim()) return setError('Enter room code!');
     setError('');
+    console.log('Attempting to join:', { roomCode: roomCode.toUpperCase(), playerName });
     socket.emit('player:join', { roomCode: roomCode.toUpperCase(), playerName });
   };
 
